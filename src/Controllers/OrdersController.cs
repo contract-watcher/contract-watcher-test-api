@@ -1,19 +1,21 @@
-using System.Reflection;
-using System.Text.Json;
-using System.Text.Json.Nodes;
-using System.Text.Json.Schema;
-using System.Text.Json.Serialization;
 using ContractWatcher.SDK.AspNetCore.Attributes;
+using ContractWatcher.TestApi.Contracts;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 
 namespace ContractWatcher.TestApi.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
-public class OrdersController : ControllerBase
+public sealed class OrdersController : ControllerBase
 {
     [HttpPost]
     [ContractWatcher("orders")]
-    public IActionResult Create([FromBody] JsonElement request) =>
-        Ok(new { Message = "Request accepted", Payload = request });
+    public IActionResult Create(
+        [FromBody, ValidateNever] CreateOrderRequest? request) =>
+        Ok(new
+        {
+            Message = "Request accepted",
+            Payload = request
+        });
 }
