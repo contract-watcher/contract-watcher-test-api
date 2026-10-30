@@ -1,6 +1,8 @@
+using System.Text.Json.Serialization;
 using ContractWatcher.SDK.AspNetCore.Extensions;
 using ContractWatcher.SDK.Configuration.Extensions;
 using ContractWatcher.SDK.Configuration.Options;
+using ContractWatcher.SDK.Scanning.Enums;
 using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +17,18 @@ builder.Services
 
 builder.Services
     .AddControllers()
-    .AddContractWatcher();
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.NumberHandling =
+            JsonNumberHandling.Strict;
+    })
+    .AddContractWatcher()
+    .AddContractWatcherScanning(scanning => scanning
+        .AddSynchronization(options =>
+        {
+            options.SourcePreference = ContractSourcePreference.Application;
+        })
+        .AddPublication());
 
 builder.Services.AddOpenApi();
 
