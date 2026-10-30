@@ -17,6 +17,11 @@ builder.Services
 
 builder.Services
     .AddControllers()
+    .ConfigureApiBehaviorOptions(options =>
+    {
+        // Не возвращать HTTP 400 автоматически при ошибках ModelState.
+        options.SuppressModelStateInvalidFilter = true;
+    })
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.NumberHandling =
