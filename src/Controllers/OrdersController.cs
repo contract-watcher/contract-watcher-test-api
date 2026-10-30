@@ -16,14 +16,4 @@ public class OrdersController : ControllerBase
     [ContractWatcher("orders")]
     public IActionResult Create([FromBody] JsonElement request) =>
         Ok(new { Message = "Request accepted", Payload = request });
-    
-    [HttpPost]
-    [ContractWatcher("orders")]
-    public IActionResult Delete([FromBody] JsonElement request) =>
-        Ok(new { Message = "Request accepted", Payload = request });
-    
-    [HttpPost]
-    [ContractWatcher("orders")]
-    public IActionResult Update([FromBody] JsonElement request) =>
-        Ok(new { Message = "Request accepted", Payload = request });
 }
